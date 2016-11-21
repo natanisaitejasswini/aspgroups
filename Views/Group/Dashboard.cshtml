@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Panel</title>
+  <link rel="stylesheet" href="~/css/site.css"/>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+    <nav>
+    <ul class="nav nav-tabs">
+      <li role="presentation">
+        <a href="/logout">Logout</a>
+      </li>
+      <li>
+        <a class="move_right_name" data-toggle="dropdown">@ViewBag.User_one.first_name</a>
+    </li>
+    </ul>
+  </nav>
+  <div class="container">
+    <h4>Hello @ViewBag.User_one.first_name @ViewBag.User_one.last_name</h4>
+        <div class="col-md-6">
+            <h4>Here are the organizations you may join</h4>
+            @{
+                foreach(var Current in ViewBag.All_Groups){
+                    <div class="row" id="groups">
+                        <a href="/show/@Current.id">@Current.group_name</a>
+                        <p>Members: @Current.members</p>
+                        <p>@Current.description</p>
+                        @if(@Current.user_id == @ViewBag.User_one.id)
+                        {
+                            <a href="/deletegroup/@Current.id" class="btn btn-warning" onclick="return confirm('Are you sure you want to remove your Group?');">Delete</a>
+                        }
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-md-4 border">
+            <p>Create a New Organization:</p>
+        <form action='/addgroup' method='post'>
+        <div class="form-group">
+              <label for="name">Org Name:</label>
+              <input name="group_name" type="name" class="form-control" id="name" placeholder="Organization Name">
+        </div>
+         <div class="form-group">
+              <label for="description">Description:</label>
+               <textarea class="form-control" rows="3" name="description" placeholder="Description.."></textarea>
+        </div>
+        <div class="form-group">
+              <input name="members" type="hidden" value ="1" class="form-control" id="members">
+        </div>
+         <div class="form-group">
+              <input name="user_id" type="hidden" value ="@ViewBag.User_one.id" class="form-control" id="user_id">
+        </div>
+            <button type="submit" class="btn btn-primary pull-right">Add</button><br><br>
+        </form>
+        @{
+            if(ViewBag.errors != null){
+                foreach(var error in ViewBag.errors){
+                <p class="errors">@error</p>
+                }
+            }   
+        } 
+    </div>
+  </div>
+</body>
+</html>

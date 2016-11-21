@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Show Panel</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+    <nav>
+    <ul class="nav nav-tabs">
+    <li role="presentation">
+        <a href="/dashboard">Home</a>
+      </li>
+      <li role="presentation">
+        <a href="/logout">Logout</a>
+      </li>
+      <li>
+        <a class="move_right_name" data-toggle="dropdown">@ViewBag.User_one.first_name</a>
+    </li>
+    </ul>
+  </nav>
+  <div class="container">
+    <div class="col-md-4">
+        <p>
+        <h2>@ViewBag.Group_Info.group_name</h2>
+        <p class="font">@ViewBag.Group_Info.description</p>
+        <p><b>Created By:</b> @ViewBag.Group_Info.first_name @ViewBag.Group_Info.last_name</p>
+        <p><b>Members:</b> 
+             @{
+                foreach(var All1 in ViewBag.Other_Users){
+                    <p class="font">@All1.first_name</p>
+                }
+             }
+        </p>
+        </p><br><br>
+    </div>
+    <div class="col-md-4 move_down"> 
+        @if(@ViewBag.Group_Info.user_id != @ViewBag.User_one.id){
+            if(@ViewBag.Switch == 1)
+            {
+                 <a href="/leave/@ViewBag.Group_Info.id" class="btn btn-warning" onclick="return confirm('Are you sure you want to Leave this Group?');">Leave Group</a>
+            }
+            else{
+                <a href="/join/@ViewBag.Group_Info.id" class="btn btn-warning" onclick="return confirm('Are you sure you want to Join this Group?');">Join Group</a>
+            }
+        }
+    </div>
+  </div>  
